@@ -1,0 +1,17 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.tslint": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "files.exclude": {
+        "node_modules": true,
+        ".eslintignore": true,
+        ".eslintrc": true,
+        ".gitignore": true,
+        ".prettierrc": true,
+        "pnpm-lock.yaml": true,
+        "tsconfig.json": true,
+        "yarn.lock": true
+    }
+}
