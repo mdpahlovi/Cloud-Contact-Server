@@ -1,4 +1,6 @@
-import { ErrorRequestHandler, Request, Response } from "express";
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import config from "../../config";
 import ApiError from "../../errors/ApiError";
@@ -7,7 +9,7 @@ import handleValidationError from "../../errors/handleValidationError";
 import handleZodError from "../../errors/handleZodError";
 import { IGenericErrorMessage } from "../../interfaces/error";
 
-const globalErrorHandler: ErrorRequestHandler = (error, req: Request, res: Response) => {
+const globalErrorHandler: ErrorRequestHandler = (error, req: Request, res: Response, next: NextFunction) => {
     let statusCode = 500;
     let message = "Something went wrong !";
     let errorMessages: IGenericErrorMessage[] = [];

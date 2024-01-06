@@ -1,12 +1,14 @@
 import { SortOrder } from "mongoose";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { searchHelper } from "../../../helpers/searchHelper";
+import { uploadImage } from "../../../helpers/uploadImage";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import { contactSearchableFields } from "./contact.constant";
 import { IContact, IContactFilters } from "./contact.interface";
 import { Contact } from "./contact.model";
 
 const createContact = async (payload: IContact) => {
+    payload.profile_picture = await uploadImage(payload.profile_picture, "Contact");
     const newContact = new Contact(payload);
     const result = await newContact.save();
 
@@ -30,7 +32,7 @@ const getAllContacts = async (filters: IContactFilters, paginationOptions: IPagi
     const result = await Contact.find(whereConditions).sort(sortConditions).skip(skip).limit(size);
     const total = await Contact.countDocuments(whereConditions);
 
-    return { meta: { page, size, total }, data: result };
+    return { meta: { page, size, total, totalPage: Math.ceil(total / size) }, data: result };
 };
 
 const getSingleContact = async (id: string) => {
@@ -40,6 +42,7 @@ const getSingleContact = async (id: string) => {
 };
 
 const updateContact = async (id: string, payload: Partial<IContact>) => {
+    if (payload?.profile_picture) payload.profile_picture = await uploadImage(payload.profile_picture, "Contact");
     const result = await Contact.findByIdAndUpdate(id, payload, { new: true });
 
     return result;

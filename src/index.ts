@@ -1,3 +1,4 @@
+import { v2 as cloudinary } from "cloudinary";
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
@@ -12,6 +13,9 @@ let server: Server;
 
 async function bootstrap() {
     try {
+        const { cloud_name, api_key, api_secret } = config.cloud;
+        cloudinary.config({ cloud_name, api_key, api_secret });
+
         await mongoose.connect(config.database_url as string);
         console.log(`Database is connected successfully`);
 
